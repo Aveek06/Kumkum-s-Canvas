@@ -19,7 +19,7 @@ const About: React.FC = () => {
             </div>
             <div className="md:w-1/2 relative">
                 <OptimizedImage 
-                  src="https://picsum.photos/seed/about/800/1000" 
+                  src="/Kumkum_Photo.JPG" 
                   alt={ARTIST_NAME} 
                   containerClassName="rounded-[4rem] shadow-2xl border-4 border-white"
                   className="w-full h-auto"

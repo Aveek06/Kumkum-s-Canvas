@@ -166,7 +166,7 @@ const Home: React.FC = () => {
           <div className="md:w-1/2 relative">
             <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
               <OptimizedImage 
-                src="https://picsum.photos/seed/artist/800/1000" 
+                src="/Kumkum_Photo.JPG" 
                 alt={ARTIST_NAME} 
                 className="w-full grayscale hover:grayscale-0" 
               />
