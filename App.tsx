@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Gallery from './pages/Gallery';
 import ArtworkDetail from './pages/ArtworkDetail';
 import About from './pages/About';
+import Admin from './pages/Admin';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/artwork/:id" element={<ArtworkDetail />} />
             <Route path="/about" element={<About />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <Footer />

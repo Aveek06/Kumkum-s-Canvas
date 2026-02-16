@@ -1,15 +1,22 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ARTWORKS } from '../constants';
+import { getPersistentArtworks } from '../constants';
 import ArtworkCard from '../components/ArtworkCard';
+import { Artwork } from '../types';
 
 const Gallery: React.FC = () => {
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  
+  useEffect(() => {
+    setArtworks(getPersistentArtworks());
+  }, []);
+
   return (
     <div className="pt-24 md:pt-36 pb-20 md:pb-32 px-5 md:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Navigation / Back Button - Moved higher */}
+        {/* Navigation / Back Button */}
         <div className="mb-8 md:mb-12">
             <Link 
             to="/" 
@@ -38,10 +45,10 @@ const Gallery: React.FC = () => {
           </div>
         </div>
 
-        {/* Grid - Refined for Mobile Viewing */}
-        {ARTWORKS.length > 0 ? (
+        {/* Grid */}
+        {artworks.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 md:gap-x-12 gap-y-16 md:gap-y-24">
-            {ARTWORKS.map((art, index) => (
+            {artworks.map((art, index) => (
               <div 
                 key={art.id} 
                 className="animate-in fade-in slide-in-from-bottom-8 duration-1000"

@@ -1,9 +1,10 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sun, Palette, ArrowUpRight, Leaf, Heart } from 'lucide-react';
-import { ARTWORKS, ARTIST_NAME, BRAND_NAME } from '../constants';
+import { ARTIST_NAME, BRAND_NAME, getPersistentArtworks } from '../constants';
 import OptimizedImage from '../components/OptimizedImage';
+import { Artwork } from '../types';
 
 const FloatingLeaf = ({ className, delay = 0 }: { className?: string; delay?: number }) => (
   <div 
@@ -15,11 +16,14 @@ const FloatingLeaf = ({ className, delay = 0 }: { className?: string; delay?: nu
 );
 
 const Home: React.FC = () => {
-  const featured = ARTWORKS.filter(a => a.isFeatured).slice(0, 3);
-
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  
   useEffect(() => {
     document.title = 'Kumkum’s Canvas | Buy Original Canvas Paintings Online';
+    setArtworks(getPersistentArtworks());
   }, []);
+
+  const featured = artworks.filter(a => a.isFeatured).slice(0, 3);
 
   return (
     <div className="overflow-hidden">
@@ -28,21 +32,16 @@ const Home: React.FC = () => {
         {/* Background Decorative Shapes */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-full max-w-5xl h-[700px]">
-            {/* The Sky/Ocean Element */}
             <div className="absolute top-1/2 left-1/2 -translate-x-[75%] -translate-y-1/2 w-[600px] h-[600px] bg-sky-200/40 rounded-full blur-[100px] animate-pulse duration-[8s]"></div>
-            {/* The Sun Element */}
             <div className="absolute top-1/2 left-1/2 -translate-x-[15%] -translate-y-1/2 w-[550px] h-[550px] bg-amber-100/50 rounded-full blur-[90px] animate-pulse duration-[10s] delay-1000"></div>
-            {/* The Meadow Element */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-emerald-50/30 rounded-[100%] blur-[80px]"></div>
           </div>
         </div>
 
-        {/* Floating Nature Particles */}
         <FloatingLeaf className="top-1/4 left-[10%]" delay={0} />
         <FloatingLeaf className="bottom-1/4 right-[12%] -rotate-45" delay={2} />
         <FloatingLeaf className="top-1/3 right-[20%] rotate-90" delay={4} />
         
-        {/* Subtle Sun Glints */}
         <div className="absolute top-1/4 right-[15%] w-2 h-2 bg-amber-300 rounded-full blur-sm animate-ping duration-[4s]"></div>
         <div className="absolute bottom-1/3 left-[15%] w-1.5 h-1.5 bg-sky-300 rounded-full blur-sm animate-ping duration-[3s] delay-700"></div>
 
@@ -100,7 +99,7 @@ const Home: React.FC = () => {
           </div>
 
           <div className="space-y-40">
-            {featured.map((artwork, index) => (
+            {featured.length > 0 ? featured.map((artwork, index) => (
               <div key={artwork.id} className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 md:gap-24 items-center`}>
                 <div className="w-full md:w-2/3">
                   <Link to={`/artwork/${artwork.id}`} className="group block relative overflow-hidden rounded-[3rem] bg-white shadow-2xl border-8 border-white">
@@ -152,7 +151,11 @@ const Home: React.FC = () => {
                   </Link>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="py-20 text-center">
+                <p className="text-slate-400 font-serif italic text-2xl">New masterpieces are currently in the studio...</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

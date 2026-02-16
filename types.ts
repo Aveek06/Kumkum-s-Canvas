@@ -1,10 +1,16 @@
 
 export type Category = 'Nature';
 
+export interface PrintOption {
+  size: string;
+  price: number;
+}
+
 export interface Artwork {
   id: string;
   title: string;
   price: number;
+  printPrices: PrintOption[]; // Array of size-price combinations
   category: Category;
   description: string;
   story: string;

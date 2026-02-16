@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Mail } from 'lucide-react';
+import { Instagram, Facebook, Mail, Lock } from 'lucide-react';
 import { BRAND_NAME, SOCIAL_LINKS } from '../constants';
 import Logo from './Logo';
 
@@ -75,6 +75,12 @@ const Footer: React.FC = () => {
             >
               <Mail size={22} />
             </a>
+          </div>
+
+          <div className="mt-12">
+             <Link to="/admin" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-300 hover:text-slate-500 smooth-transition">
+               <Lock size={12} /> Admin Studio
+             </Link>
           </div>
         </div>
       </div>

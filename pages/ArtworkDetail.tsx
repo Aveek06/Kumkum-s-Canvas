@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Mail, Ruler, Palette, CheckCircle2, Sparkles, BookOpen, X, Maximize2, Layout, Heart } from 'lucide-react';
-import { ARTWORKS, WHATSAPP_NUMBER, SOCIAL_LINKS } from '../constants';
+import { getPersistentArtworks, WHATSAPP_NUMBER, SOCIAL_LINKS } from '../constants';
 import OptimizedImage from '../components/OptimizedImage';
+import { Artwork, PrintOption } from '../types';
 
-// Reusable WhatsApp Icon SVG
 const WhatsAppIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
   <svg 
     width={size} 
@@ -20,28 +20,28 @@ const WhatsAppIcon = ({ size = 24, className = "" }: { size?: number, className?
 );
 
 type PurchaseOption = 'original' | 'print';
-type PrintSize = 'small' | 'medium' | 'large';
-
-const PRINT_SIZES = [
-  { id: 'small', label: '12" x 16"', price: 4500 },
-  { id: 'medium', label: '18" x 24"', price: 8500 },
-  { id: 'large', label: '24" x 36"', price: 12500 },
-];
 
 const ArtworkDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const artwork = ARTWORKS.find(a => a.id === id);
-  
+  const [artwork, setArtwork] = useState<Artwork | null>(null);
   const [purchaseType, setPurchaseType] = useState<PurchaseOption>('original');
-  const [selectedPrintSize, setSelectedPrintSize] = useState<PrintSize>('medium');
+  const [selectedPrintOption, setSelectedPrintOption] = useState<PrintOption | null>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (artwork && !artwork.available) {
-      setPurchaseType('print');
+    const arts = getPersistentArtworks();
+    const found = arts.find(a => a.id === id);
+    if (found) {
+      setArtwork(found);
+      if (found.printPrices && found.printPrices.length > 0) {
+        setSelectedPrintOption(found.printPrices[0]);
+      }
+      if (!found.available) {
+        setPurchaseType('print');
+      }
     }
-  }, [id, artwork]);
+  }, [id]);
 
   if (!artwork) {
     return (
@@ -56,12 +56,12 @@ const ArtworkDetail: React.FC = () => {
 
   const currentPrice = purchaseType === 'original' 
     ? artwork.price 
-    : (PRINT_SIZES.find(s => s.id === selectedPrintSize)?.price || 0);
+    : (selectedPrintOption?.price || 0);
 
   const handleInquiry = () => {
     const detail = purchaseType === 'original' 
       ? `Original Artwork` 
-      : `Fine Art Print (Size: ${PRINT_SIZES.find(s => s.id === selectedPrintSize)?.label})`;
+      : `Fine Art Print (Size: ${selectedPrintOption?.size})`;
       
     const message = encodeURIComponent(`Hi Kumkum! I'm absolutely in love with "${artwork.title}". I'd like to inquire about purchasing the ${detail}. Price quoted: ₹${currentPrice.toLocaleString('en-IN')}. Please let me know the next steps!`);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
@@ -70,7 +70,7 @@ const ArtworkDetail: React.FC = () => {
   const handleEmailInquiry = () => {
     const detail = purchaseType === 'original' 
       ? `Original Piece` 
-      : `Fine Art Print (Size: ${PRINT_SIZES.find(s => s.id === selectedPrintSize)?.label})`;
+      : `Fine Art Print (${selectedPrintOption?.size})`;
     
     const subject = `Enquiry: ${artwork.title} (${detail})`;
     const body = `Hi Kumkum,\n\nI am interested in acquiring your artwork "${artwork.title}".\n\nOption: ${detail}\nQuoted Price: ₹${currentPrice.toLocaleString('en-IN')}\n\nPlease share the payment details and estimated shipping time.\n\nBest regards,`;
@@ -92,7 +92,6 @@ const ArtworkDetail: React.FC = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
-          {/* Left Column: Image Area */}
           <div className="w-full lg:w-3/5">
             <div className="sticky top-32">
               <button 
@@ -145,7 +144,6 @@ const ArtworkDetail: React.FC = () => {
                 </div>
               </div>
 
-              {/* Emotional Positioning: Decor Inspiration Section (Full Width Desktop) */}
               <div className="mt-16 bg-white/40 backdrop-blur-md rounded-[3rem] p-10 border border-white shadow-xl">
                  <div className="flex items-center gap-4 mb-8">
                     <div className="p-3 bg-amber-400 rounded-2xl text-slate-950 shadow-lg">
@@ -162,13 +160,11 @@ const ArtworkDetail: React.FC = () => {
                  <div className="flex flex-wrap gap-4">
                     <span className="bg-slate-950/5 text-slate-950 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-950/10">#InteriorStyling</span>
                     <span className="bg-slate-950/5 text-slate-950 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-950/10">#GalleryWall</span>
-                    <span className="bg-slate-950/5 text-slate-950 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-950/10">#ArtCurator</span>
                  </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Details */}
           <div className="w-full lg:w-2/5 flex flex-col">
             <div className="bg-amber-400 p-8 md:p-12 rounded-[3.5rem] shadow-[0_35px_60px_-15px_rgba(251,191,36,0.3)] border-4 border-white relative animate-in fade-in zoom-in duration-700">
               <div className="absolute top-12 right-12 text-slate-950/20">
@@ -196,37 +192,37 @@ const ArtworkDetail: React.FC = () => {
                   <span>Original Piece</span>
                 </button>
                 <button 
-                  onClick={() => setPurchaseType('print')}
+                  onClick={() => artwork.printPrices && artwork.printPrices.length > 0 && setPurchaseType('print')}
+                  disabled={!artwork.printPrices || artwork.printPrices.length === 0}
                   className={`flex-1 py-6 px-4 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] smooth-transition flex flex-col items-center gap-1 ${
                     purchaseType === 'print' 
                       ? 'bg-slate-950 text-white shadow-xl scale-[1.02]' 
-                      : 'text-slate-950 hover:bg-white/40'
+                      : (!artwork.printPrices || artwork.printPrices.length === 0) ? 'text-slate-950/30 cursor-not-allowed' : 'text-slate-950 hover:bg-white/40'
                   }`}
                 >
                   <span>Fine Art Print</span>
-                  <span className="text-[8px] lowercase opacity-60">(museum grade)</span>
                 </button>
               </div>
 
-              {purchaseType === 'print' && (
+              {purchaseType === 'print' && artwork.printPrices && (
                 <div className="mb-10 animate-in fade-in slide-in-from-top-4 duration-500">
-                  <h3 className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-950 mb-4">Select Print Size</h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    {PRINT_SIZES.map(size => (
-                      <button
-                        key={size.id}
-                        onClick={() => setSelectedPrintSize(size.id as PrintSize)}
-                        className={`py-4 border-2 rounded-2xl smooth-transition text-center group ${
-                          selectedPrintSize === size.id 
-                            ? 'border-slate-950 bg-white shadow-lg' 
-                            : 'border-white/20 bg-white/10 hover:border-white/60'
-                        }`}
-                      >
-                        <p className={`text-xs font-black uppercase tracking-widest mb-1 ${selectedPrintSize === size.id ? 'text-slate-950' : 'text-slate-900'}`}>{size.id}</p>
-                        <p className="text-[9px] text-slate-950/60 font-black">{size.label}</p>
-                      </button>
-                    ))}
-                  </div>
+                   <h3 className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-950 mb-4">Select Print Size</h3>
+                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {artwork.printPrices.map((option, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedPrintOption(option)}
+                          className={`p-4 border-2 rounded-2xl smooth-transition text-center group ${
+                            selectedPrintOption?.size === option.size 
+                              ? 'border-slate-950 bg-white shadow-lg' 
+                              : 'border-white/20 bg-white/10 hover:border-white/60'
+                          }`}
+                        >
+                          <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${selectedPrintOption?.size === option.size ? 'text-slate-950' : 'text-slate-900'}`}>{option.size}</p>
+                          <p className="text-[9px] text-slate-950/60 font-black">₹{option.price.toLocaleString('en-IN')}</p>
+                        </button>
+                      ))}
+                   </div>
                 </div>
               )}
 
@@ -251,9 +247,6 @@ const ArtworkDetail: React.FC = () => {
               </div>
 
               <div className="space-y-4">
-                <p className="text-center text-[10px] uppercase tracking-[0.4em] font-black text-slate-950/80 mb-6">
-                  Inquire to purchase
-                </p>
                 <button 
                     onClick={handleInquiry}
                     className="w-full bg-slate-950 text-white py-8 rounded-[2.5rem] text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-slate-950 flex items-center justify-center gap-4 shadow-2xl hover:scale-105 active:scale-95 smooth-transition group mb-2"
@@ -276,23 +269,17 @@ const ArtworkDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Authenticity Badges */}
             <div className="flex flex-col items-center gap-3 mt-12">
               <p className="text-center text-[9px] text-slate-400 uppercase tracking-[0.3em] font-black flex items-center gap-4 w-full">
                 <span className="flex-grow h-px bg-slate-200"></span> 
                 Handcrafted & Authentic
                 <span className="flex-grow h-px bg-slate-200"></span>
               </p>
-              <div className="flex gap-8 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> Signed Original</span>
-                <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> Secure Shipping</span>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Lightbox Modal */}
       {isLightboxOpen && (
         <div 
           className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-300"
@@ -305,15 +292,8 @@ const ArtworkDetail: React.FC = () => {
             <X size={40} />
           </button>
           
-          <div 
-            className="relative max-w-6xl w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img 
-              src={artwork.imageUrl} 
-              alt={artwork.title} 
-              className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-in zoom-in duration-500"
-            />
+          <div className="relative max-w-6xl w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img src={artwork.imageUrl} alt={artwork.title} className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-in zoom-in duration-500" />
           </div>
         </div>
       )}
