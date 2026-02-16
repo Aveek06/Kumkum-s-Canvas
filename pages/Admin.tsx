@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { 
   Plus, Edit2, Trash2, CheckCircle2, XCircle, 
   BarChart3, LayoutGrid, LogOut, Save, Image as ImageIcon,
-  DollarSign, Package, CheckCircle, PlusCircle, MinusCircle
+  DollarSign, Package, CheckCircle, PlusCircle, MinusCircle,
+  RefreshCcw, Star, StarOff
 } from 'lucide-react';
-import { ARTIST_NAME, ADMIN_PASSWORD, getPersistentArtworks, savePersistentArtworks } from '../constants';
+import { ARTIST_NAME, ADMIN_PASSWORD, getPersistentArtworks, savePersistentArtworks, INITIAL_ARTWORKS } from '../constants';
 import { Artwork, PrintOption } from '../types';
 
 const Admin: React.FC = () => {
@@ -36,6 +37,14 @@ const Admin: React.FC = () => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     sessionStorage.removeItem('admin_logged_in');
+  };
+
+  const handleResetGallery = () => {
+    if (window.confirm('This will delete all custom changes and restore the original "Kumkum’s Canvas" collection. Continue?')) {
+      setArtworks(INITIAL_ARTWORKS);
+      savePersistentArtworks(INITIAL_ARTWORKS);
+      window.location.reload();
+    }
   };
 
   const handleSave = (e: React.FormEvent) => {
@@ -107,6 +116,14 @@ const Admin: React.FC = () => {
     savePersistentArtworks(updated);
   };
 
+  const toggleFeatured = (id: string) => {
+    const updated = artworks.map(art => 
+      art.id === id ? { ...art, isFeatured: !art.isFeatured } : art
+    );
+    setArtworks(updated);
+    savePersistentArtworks(updated);
+  };
+
   const stats = {
     total: artworks.length,
     sold: artworks.filter(a => !a.available).length,
@@ -152,7 +169,13 @@ const Admin: React.FC = () => {
             <h1 className="text-4xl font-serif font-bold text-slate-950">Management Suite</h1>
             <p className="text-slate-500 font-medium">Curate and monitor your digital gallery</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
+            <button 
+              onClick={handleResetGallery}
+              className="bg-white text-slate-500 px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 border border-slate-200 hover:text-amber-600 hover:border-amber-400 smooth-transition shadow-sm"
+            >
+              <RefreshCcw size={16} /> Reset Gallery
+            </button>
             <button 
               onClick={() => { setShowForm(true); setEditingId(null); setFormData({ printPrices: [] }); }}
               className="bg-amber-400 text-slate-950 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-amber-500 smooth-transition shadow-lg shadow-amber-200"
@@ -184,6 +207,7 @@ const Admin: React.FC = () => {
                   <th className="px-8 py-6 text-[10px] uppercase tracking-widest font-black text-slate-400">Original Price</th>
                   <th className="px-8 py-6 text-[10px] uppercase tracking-widest font-black text-slate-400">Print Variations</th>
                   <th className="px-8 py-6 text-[10px] uppercase tracking-widest font-black text-slate-400">Status</th>
+                  <th className="px-8 py-6 text-[10px] uppercase tracking-widest font-black text-slate-400 text-center">Featured</th>
                   <th className="px-8 py-6 text-[10px] uppercase tracking-widest font-black text-slate-400">Actions</th>
                 </tr>
               </thead>
@@ -218,6 +242,19 @@ const Admin: React.FC = () => {
                        >
                          {art.available ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
                          {art.available ? 'Available' : 'Sold'}
+                       </button>
+                    </td>
+                    <td className="px-8 py-6 text-center">
+                       <button 
+                        onClick={() => toggleFeatured(art.id)}
+                        className={`p-3 rounded-full smooth-transition border ${
+                          art.isFeatured 
+                            ? 'bg-amber-50 text-amber-500 border-amber-100 shadow-sm' 
+                            : 'text-slate-200 border-transparent hover:text-slate-300'
+                        }`}
+                        title={art.isFeatured ? "Unmark from Featured" : "Mark as Featured"}
+                       >
+                         {art.isFeatured ? <Star size={20} fill="currentColor" /> : <StarOff size={20} />}
                        </button>
                     </td>
                     <td className="px-8 py-6">
@@ -255,7 +292,21 @@ const Admin: React.FC = () => {
                 <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-6">
                     <FormGroup label="Artwork Title" name="title" value={formData.title} onChange={(v) => setFormData({...formData, title: v})} required />
-                    <FormGroup label="Image URL (./name.png)" name="imageUrl" value={formData.imageUrl} onChange={(v) => setFormData({...formData, imageUrl: v})} required icon={<ImageIcon size={18} />} />
+                    
+                    <div className="space-y-1">
+                      <FormGroup 
+                        label="Image Path" 
+                        name="imageUrl" 
+                        value={formData.imageUrl} 
+                        onChange={(v) => setFormData({...formData, imageUrl: v})} 
+                        required 
+                        icon={<ImageIcon size={18} />} 
+                        placeholder="e.g., /artwork.webp"
+                      />
+                      <p className="text-[9px] text-slate-400 px-2 leading-relaxed">
+                        Enter the root path for images in your <strong>public/</strong> folder (e.g., <strong>/Far_Horizon.webp</strong>). Paths must start with <strong>/</strong>.
+                      </p>
+                    </div>
                     
                     <div className="grid grid-cols-1 gap-4">
                       <FormGroup label="Original Canvas Price (INR)" type="number" name="price" value={formData.price} onChange={(v) => setFormData({...formData, price: v})} required />

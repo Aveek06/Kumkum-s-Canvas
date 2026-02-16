@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Search, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import { getPersistentArtworks } from '../constants';
 import ArtworkCard from '../components/ArtworkCard';
 import { Artwork } from '../types';
@@ -16,17 +15,6 @@ const Gallery: React.FC = () => {
   return (
     <div className="pt-24 md:pt-36 pb-20 md:pb-32 px-5 md:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Navigation / Back Button */}
-        <div className="mb-8 md:mb-12">
-            <Link 
-            to="/" 
-            className="group inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-black px-6 py-4 border border-slate-200 bg-white/50 hover:bg-white hover:border-amber-400 hover:text-amber-600 smooth-transition text-slate-900 rounded-lg shadow-sm"
-            >
-            <ArrowLeft size={14} className="group-hover:-translate-x-1 smooth-transition" /> 
-            Back
-            </Link>
-        </div>
-
         {/* Header */}
         <div className="mb-14 md:mb-24 text-center">
           <span className="text-amber-600 font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3 md:mb-4 block animate-in fade-in slide-in-from-bottom-2 duration-700">The Collection</span>

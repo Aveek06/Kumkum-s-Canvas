@@ -7,11 +7,9 @@ export const BRAND_NAME = "Kumkum’s Canvas";
 export const ADMIN_PASSWORD = "12345"; // Default admin password
 
 /**
- * LOGO CONFIGURATION:
- * 1. BROWSER LOCAL STORAGE: localStorage.setItem('kumkum_custom_logo', 'url')
- * 2. PROJECT DIRECTORY: Set LOGO_URL to "./Logo.png"
+ * LOGO CONFIGURATION
  */
-export const LOGO_URL: string = "/Logo.png"; 
+export const LOGO_URL: string = "/Logo.webp"; 
 
 export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/kumkumscanvas",
@@ -37,8 +35,8 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     fitsIn: 'Contemporary living room centerpiece.',
     decorInspiration: 'Pairs exquisitely with warm wood finishes like Walnut or Teak.',
     size: '24" x 36"',
-    medium: 'Oil on Canvas',
-    imageUrl: './Far_Horizon.png',
+    medium: 'Acrylic on Canvas',
+    imageUrl: '/Far_Horizon.webp',
     isFeatured: true,
     available: true
   },
@@ -58,27 +56,73 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     fitsIn: 'Ideally suited for a master bedroom or a private study.',
     decorInspiration: 'Style against a crisp white or soft sand-colored wall.',
     size: '30" x 30"',
-    medium: 'Oil on Canvas',
-    imageUrl: './Hidden_Haven.png',
+    medium: 'Acrylic on Canvas',
+    imageUrl: '/Hidden_Haven.webp',
     isFeatured: true,
+    available: true
+  },
+  {
+    id: '3',
+    title: 'Rustic Elegance',
+    price: 110000,
+    printPrices: [
+      { size: '16" x 20"', price: 5500 },
+      { size: '24" x 30"', price: 9500 },
+      { size: '32" x 40"', price: 14500 }
+    ],
+    category: 'Nature',
+    description: 'Earthy textures and raw organic beauty.',
+    story: 'Rustic Elegance explores the intersection of decay and rebirth in the natural world.',
+    inspiration: 'The complex patterns found on ancient canyon walls.',
+    fitsIn: 'Industrial loft or modern farmhouse entry.',
+    decorInspiration: 'Complements exposed brick and raw concrete surfaces beautifully.',
+    size: '32" x 40"',
+    medium: 'Acrylic on Canvas',
+    imageUrl: '/Rustic_Elegance.webp',
+    isFeatured: true,
+    available: true
+  },
+  {
+    id: '4',
+    title: 'Serene Serenity',
+    price: 85000,
+    printPrices: [
+      { size: '12" x 12"', price: 3200 },
+      { size: '24" x 24"', price: 7200 },
+      { size: '36" x 36"', price: 11200 }
+    ],
+    category: 'Nature',
+    description: 'A minimalist exploration of peace and quiet.',
+    story: 'This work was created in total silence, aiming to translate that stillness onto the canvas.',
+    inspiration: 'A mist-covered mountain peak at the break of dawn.',
+    fitsIn: 'Meditation room or a quiet reading nook.',
+    decorInspiration: 'Best displayed in a room with plenty of natural negative space.',
+    size: '36" x 36"',
+    medium: 'Acrylic on Canvas',
+    imageUrl: '/Serene_Serenity.webp',
+    isFeatured: false,
     available: true
   }
 ];
 
-// Helper to handle persistent data
+// Database Versioning - v10 for Public folder migration
+const STORAGE_KEY = 'kumkum_database_v10';
+
 export const getPersistentArtworks = (): Artwork[] => {
   try {
-    const saved = localStorage.getItem('kumkum_artworks');
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return JSON.parse(saved);
+    
+    // Auto-seed if first time or version changed
+    savePersistentArtworks(INITIAL_ARTWORKS);
   } catch (e) {
-    console.error("Failed to load artworks from storage", e);
+    console.error("Critical: Storage retrieval failed", e);
   }
   return INITIAL_ARTWORKS;
 };
 
 export const savePersistentArtworks = (artworks: Artwork[]) => {
-  localStorage.setItem('kumkum_artworks', JSON.stringify(artworks));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(artworks));
 };
 
-// Exporting dynamic artworks for the rest of the app to consume
 export const ARTWORKS = getPersistentArtworks();
