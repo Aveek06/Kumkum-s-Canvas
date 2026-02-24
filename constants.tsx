@@ -1,7 +1,7 @@
 
 import { Artwork } from './types';
 
-export const WHATSAPP_NUMBER = "919432260747"; 
+export const WHATSAPP_NUMBER = "919007214619"; 
 export const ARTIST_NAME = "Kumkum";
 export const BRAND_NAME = "Kumkum’s Canvas";
 export const ADMIN_PASSWORD = "12345"; // Default admin password
@@ -12,7 +12,7 @@ export const ADMIN_PASSWORD = "12345"; // Default admin password
 export const LOGO_URL: string = "/Logo.webp"; 
 
 export const SOCIAL_LINKS = {
-  instagram: "https://instagram.com/kumkumscanvas",
+  instagram: "https://instagram.com/kumkum_canvas",
   facebook: "https://facebook.com/KumkumCanvas",
   email: "knandy2312@gmail.com"
 };
