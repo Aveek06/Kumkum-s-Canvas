@@ -291,14 +291,14 @@ const Admin: React.FC = () => {
 
                 <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-6">
-                    <FormGroup label="Artwork Title" name="title" value={formData.title} onChange={(v) => setFormData({...formData, title: v})} required />
+                    <FormGroup label="Artwork Title" name="title" value={formData.title} onChange={(v: string) => setFormData({...formData, title: v})} required />
                     
                     <div className="space-y-1">
                       <FormGroup 
                         label="Image Path" 
                         name="imageUrl" 
                         value={formData.imageUrl} 
-                        onChange={(v) => setFormData({...formData, imageUrl: v})} 
+                        onChange={(v: string) => setFormData({...formData, imageUrl: v})} 
                         required 
                         icon={<ImageIcon size={18} />} 
                         placeholder="e.g., /artwork.webp"
@@ -309,7 +309,7 @@ const Admin: React.FC = () => {
                     </div>
                     
                     <div className="grid grid-cols-1 gap-4">
-                      <FormGroup label="Original Canvas Price (INR)" type="number" name="price" value={formData.price} onChange={(v) => setFormData({...formData, price: v})} required />
+                      <FormGroup label="Original Canvas Price (INR)" type="number" name="price" value={formData.price} onChange={(v: string) => setFormData({...formData, price: Number(v)})} required />
                     </div>
 
                     <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
@@ -355,13 +355,13 @@ const Admin: React.FC = () => {
 
                   <div className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
-                      <FormGroup label="Dimensions" name="size" value={formData.size} onChange={(v) => setFormData({...formData, size: v})} placeholder="e.g. 24x36" />
-                      <FormGroup label="Category" name="category" value={formData.category} onChange={(v) => setFormData({...formData, category: v as any})} placeholder="Nature" />
+                      <FormGroup label="Dimensions" name="size" value={formData.size} onChange={(v: string) => setFormData({...formData, size: v})} placeholder="e.g. 24x36" />
+                      <FormGroup label="Category" name="category" value={formData.category} onChange={(v: string) => setFormData({...formData, category: v as any})} placeholder="Nature" />
                     </div>
-                    <FormGroup label="Medium" name="medium" value={formData.medium} onChange={(v) => setFormData({...formData, medium: v})} placeholder="Oil on Canvas" />
-                    <FormGroup label="Short Description" name="description" value={formData.description} onChange={(v) => setFormData({...formData, description: v})} textarea />
-                    <FormGroup label="The Story" name="story" value={formData.story} onChange={(v) => setFormData({...formData, story: v})} textarea />
-                    <FormGroup label="Inspiration Source" name="inspiration" value={formData.inspiration} onChange={(v) => setFormData({...formData, inspiration: v})} textarea />
+                    <FormGroup label="Medium" name="medium" value={formData.medium} onChange={(v: string) => setFormData({...formData, medium: v})} placeholder="Oil on Canvas" />
+                    <FormGroup label="Short Description" name="description" value={formData.description} onChange={(v: string) => setFormData({...formData, description: v})} textarea />
+                    <FormGroup label="The Story" name="story" value={formData.story} onChange={(v: string) => setFormData({...formData, story: v})} textarea />
+                    <FormGroup label="Inspiration Source" name="inspiration" value={formData.inspiration} onChange={(v: string) => setFormData({...formData, inspiration: v})} textarea />
                     
                     <div className="flex items-center gap-6 pt-4">
                       <label className="flex items-center gap-3 cursor-pointer group">

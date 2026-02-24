@@ -57,7 +57,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         onLoad={() => setIsLoaded(true)}
         onError={() => {
           setHasError(true);
-          console.warn(`[Kumkum's Canvas] 404: Image not found at path "${src}". Ensure this file exists in your project root.`);
+          console.warn(`[Kumkum's Canvas] 404: Image not found at path "${src}". Ensure this file exists in your public folder.`);
         }}
         className={`smooth-transition duration-700 ${className} ${
           isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'

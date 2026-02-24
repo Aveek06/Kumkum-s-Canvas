@@ -52,6 +52,7 @@ const Home: React.FC = () => {
               <OptimizedImage 
                 src="/Logo.png" 
                 alt={BRAND_NAME} 
+                loading="eager"
                 className="w-full h-full object-contain relative z-10 drop-shadow-2xl"
               />
             </div>
