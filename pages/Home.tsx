@@ -46,7 +46,15 @@ const Home: React.FC = () => {
         <div className="absolute bottom-1/3 left-[15%] w-1.5 h-1.5 bg-sky-300 rounded-full blur-sm animate-ping duration-[3s] delay-700"></div>
 
         <div className="relative z-10 text-center max-w-4xl pt-20">
-          <div className="mb-12">
+          <div className="mb-12 flex flex-col items-center">
+            <div className="w-48 h-48 md:w-64 md:h-64 mb-8 relative animate-in fade-in zoom-in duration-1000">
+              <div className="absolute inset-0 bg-amber-200/20 rounded-full blur-2xl"></div>
+              <OptimizedImage 
+                src="/Logo.png" 
+                alt={BRAND_NAME} 
+                className="w-full h-full object-contain relative z-10 drop-shadow-2xl"
+              />
+            </div>
             <h1 className="text-5xl md:text-8xl font-serif font-black text-slate-950 leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-10 duration-1000">
               Where Nature <br className="hidden md:block" /> Meets the <br className="hidden md:block" />
               <span className="text-[#d97706] italic font-serif relative inline-block">

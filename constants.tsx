@@ -9,7 +9,7 @@ export const ADMIN_PASSWORD = "12345"; // Default admin password
 /**
  * LOGO CONFIGURATION
  */
-export const LOGO_URL: string = "/Logo.webp"; 
+export const LOGO_URL: string = "/Logo.png"; 
 
 export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/kumkum_canvas",
