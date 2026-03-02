@@ -33,6 +33,7 @@ const Logo: React.FC<LogoProps> = ({ className = "w-8 h-8" }) => {
       <img 
         src={logoSource} 
         alt={`${BRAND_NAME} Logo`} 
+        referrerPolicy="no-referrer"
         className={`${className} object-contain`} 
         style={{ maxWidth: '100%', maxHeight: '100%' }}
         onError={(e) => {

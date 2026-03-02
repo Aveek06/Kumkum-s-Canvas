@@ -293,7 +293,7 @@ const ArtworkDetail: React.FC = () => {
           </button>
           
           <div className="relative max-w-6xl w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-            <img src={artwork.imageUrl} alt={artwork.title} className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-in zoom-in duration-500" />
+            <img src={artwork.imageUrl} alt={artwork.title} referrerPolicy="no-referrer" className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-in zoom-in duration-500" />
           </div>
         </div>
       )}

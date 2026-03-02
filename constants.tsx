@@ -105,8 +105,8 @@ export const INITIAL_ARTWORKS: Artwork[] = [
   }
 ];
 
-// Database Versioning - v11 to force path correction for Far Horizon
-const STORAGE_KEY = 'kumkum_database_v11';
+// Database Versioning - v12 to force path correction and refresh data
+const STORAGE_KEY = 'kumkum_database_v12';
 
 export const getPersistentArtworks = (): Artwork[] => {
   try {

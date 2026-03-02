@@ -163,6 +163,7 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork }) => {
                 <img 
                   src={artwork.imageUrl} 
                   alt={artwork.title} 
+                  referrerPolicy="no-referrer"
                   className="w-12 h-12 rounded-xl object-cover border border-slate-200"
                 />
                 <div>

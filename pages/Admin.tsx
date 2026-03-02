@@ -216,7 +216,7 @@ const Admin: React.FC = () => {
                   <tr key={art.id} className="hover:bg-slate-50/50 smooth-transition">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
-                        <img src={art.imageUrl} className="w-16 h-16 rounded-xl object-cover border border-slate-100" alt={art.title} />
+                        <img src={art.imageUrl} referrerPolicy="no-referrer" className="w-16 h-16 rounded-xl object-cover border border-slate-100" alt={art.title} />
                         <div>
                           <p className="font-bold text-slate-950">{art.title}</p>
                           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">{art.category}</p>

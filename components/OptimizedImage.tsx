@@ -54,6 +54,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         src={src}
         alt={alt}
         loading={loading}
+        referrerPolicy="no-referrer"
         onLoad={() => setIsLoaded(true)}
         onError={() => {
           setHasError(true);
