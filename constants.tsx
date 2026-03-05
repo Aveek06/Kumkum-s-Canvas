@@ -36,7 +36,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Pairs exquisitely with warm wood finishes like Walnut or Teak.',
     size: '24" x 36"',
     medium: 'Acrylic on Canvas',
-    imageUrl: '/Far_Horizon.webp',
+    imageUrl: 'https://r40m3izz77mz0t9l.public.blob.vercel-storage.com/Far_Horizon.webp',
     isFeatured: true,
     available: true
   },
