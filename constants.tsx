@@ -17,6 +17,15 @@ export const SOCIAL_LINKS = {
   email: "knandy2312@gmail.com"
 };
 
+// Helper to convert Google Drive sharing links to direct image links
+const getDirectImageUrl = (url: string) => {
+  if (url.includes('drive.google.com')) {
+    const id = url.match(/\/d\/(.+?)\//)?.[1] || url.match(/id=(.+?)(&|$)/)?.[1];
+    if (id) return `https://lh3.googleusercontent.com/u/0/d/${id}`;
+  }
+  return url;
+};
+
 // Initial data seed
 export const INITIAL_ARTWORKS: Artwork[] = [
   {
@@ -36,7 +45,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Pairs exquisitely with warm wood finishes like Walnut or Teak.',
     size: '24" x 36"',
     medium: 'Acrylic on Canvas',
-    imageUrl: 'https://drive.google.com/file/d/1QGOeYa-2brExsCtNs8tpqgVA5AzNAZH0/view?usp=sharing',
+    imageUrl: getDirectImageUrl('https://drive.google.com/file/d/1QGOeYa-2brExsCtNs8tpqgVA5AzNAZH0/view?usp=sharing'),
     isFeatured: true,
     available: true
   },
@@ -57,7 +66,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Style against a crisp white or soft sand-colored wall.',
     size: '30" x 30"',
     medium: 'Acrylic on Canvas',
-    imageUrl: 'https://drive.google.com/file/d/1yv0t6_DFj612C-bu41kalHckkpFMpYmm/view?usp=sharing',
+    imageUrl: getDirectImageUrl('https://drive.google.com/file/d/1yv0t6_DFj612C-bu41kalHckkpFMpYmm/view?usp=sharing'),
     isFeatured: true,
     available: true
   },
@@ -78,7 +87,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Complements exposed brick and raw concrete surfaces beautifully.',
     size: '32" x 40"',
     medium: 'Acrylic on Canvas',
-    imageUrl: 'https://drive.google.com/file/d/1Ej0qb2lWfkJFBuHWpe7hMawQeM_OBaJQ/view?usp=sharing',
+    imageUrl: getDirectImageUrl('https://drive.google.com/file/d/1Ej0qb2lWfkJFBuHWpe7hMawQeM_OBaJQ/view?usp=sharing'),
     isFeatured: true,
     available: true
   },
@@ -99,14 +108,14 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Best displayed in a room with plenty of natural negative space.',
     size: '36" x 36"',
     medium: 'Acrylic on Canvas',
-    imageUrl: 'https://drive.google.com/file/d/1Fkro5uDWMi-ZZiAfF60nhGUYIXmk2ouK/view?usp=drive_link',
+    imageUrl: getDirectImageUrl('https://drive.google.com/file/d/1Fkro5uDWMi-ZZiAfF60nhGUYIXmk2ouK/view?usp=drive_link'),
     isFeatured: false,
     available: true
   }
 ];
 
-// Database Versioning - v12 to force path correction and refresh data
-const STORAGE_KEY = 'kumkum_database_v12';
+// Database Versioning - v13 to force path correction and refresh data
+const STORAGE_KEY = 'kumkum_database_v13';
 
 export const getPersistentArtworks = (): Artwork[] => {
   try {
