@@ -20,7 +20,7 @@ const FloatingWhatsApp: React.FC = () => {
       href={`https://wa.me/${WHATSAPP_NUMBER}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 active:scale-95 smooth-transition group flex items-center gap-2 overflow-hidden max-w-[60px] hover:max-w-[200px]"
+      className="floating-whatsapp fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 active:scale-95 smooth-transition group flex items-center gap-2 overflow-hidden max-w-[60px] hover:max-w-[200px]"
       aria-label="Chat with us on WhatsApp"
     >
       <WhatsAppIcon size={28} />

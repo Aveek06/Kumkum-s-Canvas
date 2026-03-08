@@ -43,6 +43,15 @@ const ArtworkDetail: React.FC = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.classList.add('lightbox-open');
+    } else {
+      document.body.classList.remove('lightbox-open');
+    }
+    return () => document.body.classList.remove('lightbox-open');
+  }, [isLightboxOpen]);
+
   if (!artwork) {
     return (
       <div className="pt-40 pb-40 text-center px-6">
@@ -79,7 +88,7 @@ const ArtworkDetail: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 md:pt-36 pb-32 px-6">
+    <div className="pt-24 md:pt-36 pb-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-3 mb-8 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
@@ -105,7 +114,7 @@ const ArtworkDetail: React.FC = () => {
             <div className="sticky top-32">
               <button 
                 onClick={() => setIsLightboxOpen(true)}
-                className="w-full relative rounded-[2.5rem] overflow-hidden bg-white shadow-2xl border-4 md:border-8 border-white group cursor-zoom-in"
+                className="w-full relative rounded-3xl md:rounded-[2.5rem] overflow-hidden bg-white shadow-2xl border-2 md:border-8 border-white group cursor-zoom-in"
               >
                 <OptimizedImage 
                   src={artwork.imageUrl} 
@@ -291,19 +300,23 @@ const ArtworkDetail: React.FC = () => {
 
       {isLightboxOpen && (
         <div 
-          className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-300"
+          className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-0 md:p-12 animate-in fade-in duration-300"
           onClick={() => setIsLightboxOpen(false)}
         >
-          <button 
-            className="absolute top-10 right-10 text-white/50 hover:text-white smooth-transition p-3 rounded-full bg-white/5"
-            onClick={() => setIsLightboxOpen(false)}
-          >
-            <X size={40} />
-          </button>
-          
-          <div className="relative max-w-6xl w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-            <img src={artwork.imageUrl} alt={artwork.title} referrerPolicy="no-referrer" className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-in zoom-in duration-500" />
+          <div className="relative w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img src={artwork.imageUrl} alt={artwork.title} referrerPolicy="no-referrer" className="w-full h-full object-contain md:rounded-xl shadow-2xl animate-in zoom-in duration-500" />
           </div>
+
+          <button 
+            className="absolute top-4 right-4 md:top-10 md:right-10 text-white/70 hover:text-white smooth-transition p-4 rounded-full bg-black/20 backdrop-blur-md z-[110] border border-white/10"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLightboxOpen(false);
+            }}
+            aria-label="Close lightbox"
+          >
+            <X size={32} className="md:w-10 md:h-10" />
+          </button>
         </div>
       )}
     </div>
