@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Ruler, Palette, CheckCircle2, Sparkles, BookOpen, X, Maximize2, Layout, Heart } from 'lucide-react';
+import { ArrowLeft, Mail, Ruler, Palette, CheckCircle2, Sparkles, BookOpen, X, Maximize2, Layout, Heart, ChevronRight } from 'lucide-react';
 import { getPersistentArtworks, WHATSAPP_NUMBER, SOCIAL_LINKS } from '../constants';
 import OptimizedImage from '../components/OptimizedImage';
 import { Artwork, PrintOption } from '../types';
@@ -81,6 +81,15 @@ const ArtworkDetail: React.FC = () => {
   return (
     <div className="pt-24 md:pt-36 pb-32 px-6">
       <div className="max-w-7xl mx-auto">
+        {/* Breadcrumbs */}
+        <nav className="flex items-center gap-3 mb-8 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
+          <Link to="/" className="hover:text-amber-600 smooth-transition">Home</Link>
+          <ChevronRight size={10} className="text-slate-300" />
+          <Link to="/gallery" className="hover:text-amber-600 smooth-transition">Gallery</Link>
+          <ChevronRight size={10} className="text-slate-300" />
+          <span className="text-slate-950 truncate max-w-[150px] md:max-w-none">{artwork.title}</span>
+        </nav>
+
         <div className="mb-8 md:mb-12">
             <Link 
             to="/gallery" 
