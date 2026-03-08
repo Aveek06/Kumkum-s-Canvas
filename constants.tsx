@@ -36,7 +36,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Pairs exquisitely with warm wood finishes like Walnut or Teak.',
     size: '24" x 36"',
     medium: 'Acrylic on Canvas',
-    imageUrl: 'https://r40m3izz77mz0t9l.public.blob.vercel-storage.com/Far_Horizon.webp',
+    imageUrl: 'https://drive.google.com/file/d/1QGOeYa-2brExsCtNs8tpqgVA5AzNAZH0/view?usp=sharing',
     isFeatured: true,
     available: true
   },
@@ -57,7 +57,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Style against a crisp white or soft sand-colored wall.',
     size: '30" x 30"',
     medium: 'Acrylic on Canvas',
-    imageUrl: '/Hidden_Haven.webp',
+    imageUrl: 'https://drive.google.com/file/d/1yv0t6_DFj612C-bu41kalHckkpFMpYmm/view?usp=sharing',
     isFeatured: true,
     available: true
   },
@@ -78,7 +78,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Complements exposed brick and raw concrete surfaces beautifully.',
     size: '32" x 40"',
     medium: 'Acrylic on Canvas',
-    imageUrl: '/Rustic_Elegance.webp',
+    imageUrl: 'https://drive.google.com/file/d/1Ej0qb2lWfkJFBuHWpe7hMawQeM_OBaJQ/view?usp=sharing',
     isFeatured: true,
     available: true
   },
@@ -99,7 +99,7 @@ export const INITIAL_ARTWORKS: Artwork[] = [
     decorInspiration: 'Best displayed in a room with plenty of natural negative space.',
     size: '36" x 36"',
     medium: 'Acrylic on Canvas',
-    imageUrl: '/Serene_Serenity.webp',
+    imageUrl: 'https://drive.google.com/file/d/1Fkro5uDWMi-ZZiAfF60nhGUYIXmk2ouK/view?usp=drive_link',
     isFeatured: false,
     available: true
   }
