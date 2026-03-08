@@ -166,7 +166,7 @@ const Home: React.FC = () => {
           <div className="md:w-1/2 relative">
             <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
               <OptimizedImage 
-                src="/Kumkum_Photo.JPG" 
+                src="https://drive.google.com/file/d/1GLve-jt0-TPlEhklpp_H_t7XH0xLZgLE/view?usp=sharing" 
                 alt={ARTIST_NAME} 
                 className="w-full grayscale hover:grayscale-0" 
               />
