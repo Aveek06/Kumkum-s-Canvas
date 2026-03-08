@@ -6,24 +6,25 @@ export const ARTIST_NAME = "Kumkum";
 export const BRAND_NAME = "Kumkum’s Canvas";
 export const ADMIN_PASSWORD = "12345"; // Default admin password
 
+// Helper to convert Google Drive sharing links to direct image links
+const getDirectImageUrl = (url: string) => {
+  if (url.includes('drive.google.com')) {
+    const id = url.match(/\/d\/(.+?)\//)?.[1] || url.match(/id=(.+?)(&|$)/)?.[1];
+    // Using the thumbnail endpoint with a large size parameter is often more reliable for direct embedding
+    if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w2000`;
+  }
+  return url;
+};
+
 /**
  * LOGO CONFIGURATION
  */
-export const LOGO_URL: string = "/Logo.png"; 
+export const LOGO_URL: string = getDirectImageUrl("https://drive.google.com/file/d/1q4L6ZHQNuLc7yl-0Wr2iM-L3buwGm4Re/view?usp=sharing"); 
 
 export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/kumkum_canvas",
   facebook: "https://facebook.com/KumkumCanvas",
   email: "knandy2312@gmail.com"
-};
-
-// Helper to convert Google Drive sharing links to direct image links
-const getDirectImageUrl = (url: string) => {
-  if (url.includes('drive.google.com')) {
-    const id = url.match(/\/d\/(.+?)\//)?.[1] || url.match(/id=(.+?)(&|$)/)?.[1];
-    if (id) return `https://lh3.googleusercontent.com/u/0/d/${id}`;
-  }
-  return url;
 };
 
 // Initial data seed
@@ -114,8 +115,8 @@ export const INITIAL_ARTWORKS: Artwork[] = [
   }
 ];
 
-// Database Versioning - v13 to force path correction and refresh data
-const STORAGE_KEY = 'kumkum_database_v13';
+// Database Versioning - v16 to force path correction and refresh data
+const STORAGE_KEY = 'kumkum_database_v16';
 
 export const getPersistentArtworks = (): Artwork[] => {
   try {
